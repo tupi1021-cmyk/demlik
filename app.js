@@ -1,12 +1,13 @@
 /* =============================================
-   SUSHI KATANA — APP.JS
+   DEMLIK LOUNGE — APP.JS
    ============================================= */
 
 'use strict';
 
 // ─── Constants ───────────────────────────────
 const WA_NUMBER = '994559406018';
-const PAGE_SCROLL_MAP = {};   // page -> scrollY before leaving
+const MENU_IMG = 'images/menu-hero.jpg';
+const PAGE_SCROLL_MAP = {};
 let currentPage = 'home';
 let currentModalProduct = null;
 let currentVacancy = null;
@@ -15,217 +16,85 @@ let cart = [];
 // ─── DATA ─────────────────────────────────────
 
 const menuData = {
-  sets: [
-    {
-      id: 's1',
-      name: 'Set N1 — Super Təklif',
-      desc: '70 əd. müxtəlif suşi + 1L Coca-Cola pulsuz! Böyük yığıncaqlar üçün ideal seçim.',
-      price: 29,
-      weight: '70 əd. + 1L Cola',
-      img: 'images/set-n1.jpg',
-      badge: 'Super Təklif'
-    },
-    {
-      id: 's2',
-      name: 'Set N3',
-      desc: '30 əd. müxtəlif suşi — California, Philadelphia, Hot Crab, Hot Salmon, Baked, Maki daxildir.',
-      price: 19,
-      weight: '30 əd.',
-      img: 'images/set-n3.jpg',
-      badge: 'Populyar'
-    },
-    {
-      id: 's3',
-      name: 'Sushi Premium Set',
-      desc: 'Klassik Nigiri, Maki, California Roll — hər şey bir yerdə. Suşi sevənlər üçün ideal set.',
-      price: 29,
-      weight: '6 növ, hər birindən',
-      img: 'images/menu-hero.jpg',
-      badge: 'Klassik'
-    }
+  sorbalar: [
+    { id: 'so1', name: 'Toyuq Şorbası', desc: 'Ləziz ev toyuq şorbası.', price: 3.00, weight: '', img: MENU_IMG },
+    { id: 'so2', name: 'Tomat Şorbası', desc: 'Təzə tomatdan hazırlanmış şorba.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'so3', name: 'Mərci Şorbası', desc: 'Qiymətli mərci şorbası.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'so4', name: 'Göbələk Şorbası', desc: 'Meşə göbələklərindən hazırlanan şorba.', price: 3.99, weight: '', img: MENU_IMG },
+    { id: 'so5', name: 'Göy Şorbası', desc: 'Təzə göyərtidən hazırlanan şorba.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'so6', name: 'Düşbərə', desc: 'Ənənəvi Azərbaycan düşbərəsi.', price: 3.99, weight: '', img: MENU_IMG }
   ],
-  rolls: [
-    {
-      id: 'r1',
-      name: 'California Roll',
-      desc: 'Krab əti, avokado, salatalıq, tobiko kürüsü ilə hazırlanmış klassik uramaki roll.',
-      price: 8,
-      weight: '8 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'r2',
-      name: 'Philadelphia Roll',
-      desc: 'Krem pendir, somon, avokado ilə hazırlanmış zəngin dadlı uramaki roll.',
-      price: 9,
-      weight: '8 əd.',
-      img: 'images/gallery1.jpg'
-    },
-    {
-      id: 'r3',
-      name: 'Hot Crab Roll',
-      desc: 'İsti qızardılmış krab içlikli, xüsusi Katana sousu ilə servis edilən roll.',
-      price: 8,
-      weight: '8 əd.',
-      img: 'images/set-n3.jpg'
-    },
-    {
-      id: 'r4',
-      name: 'Hot Salmon Roll',
-      desc: 'Qızardılmış somon içlikli, wasabi mayonezi ilə servis edilən isti roll.',
-      price: 8,
-      weight: '8 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'r5',
-      name: 'Baked Roll',
-      desc: 'Fırında bişirilmiş, kremli pendir sousu ilə örtülmüş xüsusi Katana rollları.',
-      price: 9,
-      weight: '8 əd.',
-      img: 'images/gallery1.jpg'
-    },
-    {
-      id: 'r6',
-      name: 'Spicy Tuna Roll',
-      desc: 'Ədviyyatlı ton balığı, xiyar, sriracha mayonezi ilə hazırlanmış qızğın roll.',
-      price: 9,
-      weight: '8 əd.',
-      img: 'images/set-n3.jpg'
-    },
-    {
-      id: 'r7',
-      name: 'Dragon Roll',
-      desc: 'Karides tempura, avokado, unagi sousu ilə hazırlanmış vizual cəhətdən möhtəşəm roll.',
-      price: 11,
-      weight: '8 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'r8',
-      name: 'Rainbow Roll',
-      desc: 'Krab, avokado California rollu üzərinə somon, ton balığı, karides diləmləri ilə.',
-      price: 12,
-      weight: '8 əd.',
-      img: 'images/gallery1.jpg'
-    }
+  salatlar: [
+    { id: 'sa1', name: 'Sezar Salatı Toyuq İlə', desc: 'Klassik Sezar salatı toyuq ilə.', price: 7.99, weight: '', img: MENU_IMG },
+    { id: 'sa2', name: 'Sezar Salatı Krevet İlə', desc: 'Klassik Sezar salatı krevet ilə.', price: 9.99, weight: '', img: MENU_IMG },
+    { id: 'sa3', name: 'Yunan Salatı', desc: 'Ənənəvi Yunan salatı.', price: 4.99, weight: '', img: MENU_IMG },
+    { id: 'sa4', name: 'Çoban Salatı', desc: 'Təzə tərəvəzli çoban salatı.', price: 4.99, weight: '', img: MENU_IMG },
+    { id: 'sa5', name: 'Pitaxt Salatı', desc: 'Xüsusi pitaxt salatı.', price: 4.99, weight: '', img: MENU_IMG },
+    { id: 'sa6', name: 'Mimoza', desc: 'Dadlı Mimoza salatı.', price: 5.99, weight: '', img: MENU_IMG },
+    { id: 'sa7', name: 'Toyuq Salatı', desc: 'Toyuq əti ilə hazırlanmış salat.', price: 6.99, weight: '', img: MENU_IMG },
+    { id: 'sa8', name: 'Ət Salatı', desc: 'Ət ilə zəngin salat.', price: 9.99, weight: '', img: MENU_IMG },
+    { id: 'sa9', name: 'Tuna Salatı', desc: 'Tuna balığı ilə hazırlanmış salat.', price: 10.99, weight: '', img: MENU_IMG }
   ],
-  nigiri: [
-    {
-      id: 'n1',
-      name: 'Somon Nigiri',
-      desc: 'Təzə Atlantik somonundan hazırlanmış, əl ilə yoğurulmuş pirinc üzərində nigiri.',
-      price: 5,
-      weight: '2 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'n2',
-      name: 'Ton Balığı Nigiri',
-      desc: 'Premium Bluefin ton balığından hazırlanmış, xüsusi mari sousu ilə servis.',
-      price: 6,
-      weight: '2 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'n3',
-      name: 'Karides Nigiri',
-      desc: 'Bişirilmiş böyük karides, pirinc üzərində incə nori ilə bağlanmış nigiri.',
-      price: 5,
-      weight: '2 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'n4',
-      name: 'Unagi Nigiri',
-      desc: 'Şirin-şor teriyaki sousu ilə şüyüdlənmiş tərəvəz balığı (unagi) nigiris.',
-      price: 7,
-      weight: '2 əd.',
-      img: 'images/menu-hero.jpg'
-    }
+  'qarnirlər': [
+    { id: 'qa1', name: 'Düyü', desc: 'Bişmiş ağ düyü.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'qa2', name: 'Qarabaşaq', desc: 'Bişmiş qarabaşaq.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'qa3', name: 'Kartof Fri', desc: 'Qızardılmış kartof.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'qa4', name: 'Kartof Püresi', desc: 'Kremli kartof püresi.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'qa5', name: 'Kənd Sayağı Kartof', desc: 'Kənd üslubunda bişirilmiş kartof.', price: 3.99, weight: '', img: MENU_IMG },
+    { id: 'qa6', name: 'Qrildə Tərəvəz', desc: 'Qrildə bişirilmiş müxtəlif tərəvəzlər.', price: 3.99, weight: '', img: MENU_IMG }
   ],
-  maki: [
-    {
-      id: 'm1',
-      name: 'Maki Salmon',
-      desc: 'Təzə somon və nori dərinliyindən hazırlanmış sadə, lakin dadlı klassik maki rollları.',
-      price: 5,
-      weight: '10 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'm2',
-      name: 'Maki Ton Balığı',
-      desc: 'Premium ton balığı ilə hazırlanmış ənənəvi Yapon maki rollları.',
-      price: 5,
-      weight: '10 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'm3',
-      name: 'Maki Xiyar',
-      desc: 'Kappa maki — vegeterian seçimi, təzə xiyar ilə hazırlanmış yüngül maki rollları.',
-      price: 4,
-      weight: '10 əd.',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'm4',
-      name: 'Maki Avokado',
-      desc: 'Kremli avokado ilə hazırlanmış bitki əsaslı yüngül maki rollları.',
-      price: 4,
-      weight: '10 əd.',
-      img: 'images/menu-hero.jpg'
-    }
+  sendvic: [
+    { id: 'sv1', name: 'Klab Sendviç', desc: 'Klassik klab sendviç.', price: 8.99, weight: '', img: MENU_IMG },
+    { id: 'sv2', name: 'Toyuq Burger', desc: 'Ləziz toyuq burger.', price: 8.99, weight: '', img: MENU_IMG },
+    { id: 'sv3', name: 'Çiz Burger', desc: 'Pendir ilə burger.', price: 9.99, weight: '', img: MENU_IMG },
+    { id: 'sv4', name: 'Şaurma', desc: 'Ənənəvi şaurma.', price: 4.99, weight: '', img: MENU_IMG },
+    { id: 'sv5', name: 'Dönər (Toyuq)', desc: 'Toyuq ilə dönər.', price: 3.99, weight: '', img: MENU_IMG }
   ],
-  drinks: [
-    {
-      id: 'd1',
-      name: 'Coca-Cola',
-      desc: 'Klassik Coca-Cola — suşi ilə mükəmməl cütlük.',
-      price: 2,
-      weight: '0.33L',
-      img: 'images/set-n1.jpg'
-    },
-    {
-      id: 'd2',
-      name: 'Coca-Cola 1L',
-      desc: 'Böyük Coca-Cola, setlər üçün ideal seçim.',
-      price: 4,
-      weight: '1L',
-      img: 'images/set-n1.jpg'
-    },
-    {
-      id: 'd3',
-      name: 'Yaşıl Çay',
-      desc: 'Ənənəvi Yapon yaşıl çayı — suşi ilə klassik kombinasiya.',
-      price: 3,
-      weight: '400ml',
-      img: 'images/menu-hero.jpg'
-    },
-    {
-      id: 'd4',
-      name: 'Miso Şorba',
-      desc: 'Ənənəvi Yapon miso şorbasıı, tofu və dəniz yosunu ilə.',
-      price: 4,
-      weight: '350ml',
-      img: 'images/menu-hero.jpg'
-    }
+  pizzalar: [
+    { id: 'pz1', name: 'Marqarita', desc: 'Klassik Marqarita pizza.', price: 9.99, weight: '', img: MENU_IMG, badge: 'Klassik' },
+    { id: 'pz2', name: 'Toyuq Pizza', desc: 'Toyuq əti ilə pizza.', price: 10.99, weight: '', img: MENU_IMG },
+    { id: 'pz3', name: 'Ətli Pizza', desc: 'Müxtəlif ət növləri ilə pizza.', price: 11.99, weight: '', img: MENU_IMG, badge: 'Populyar' },
+    { id: 'pz4', name: 'BBQ Pizza', desc: 'BBQ sousu ilə pizza.', price: 12.99, weight: '', img: MENU_IMG },
+    { id: 'pz5', name: 'Qarışıq Pizza', desc: 'Müxtəlif ingredientli pizza.', price: 13.99, weight: '', img: MENU_IMG, badge: 'Xüsusi' }
+  ],
+  lahmacun: [
+    { id: 'lh1', name: 'Lahmacun Sadə', desc: 'Ənənəvi sadə lahmacun.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'lh2', name: 'Lahmacun Pendirli', desc: 'Pendir əlavəli lahmacun.', price: 2.99, weight: '', img: MENU_IMG },
+    { id: 'lh3', name: 'Pide Qiymali', desc: 'Qiyma ilə pide.', price: 6.99, weight: '', img: MENU_IMG },
+    { id: 'lh4', name: 'Pide Kaşarlı', desc: 'Kaşar peyniri ilə pide.', price: 7.99, weight: '', img: MENU_IMG },
+    { id: 'lh5', name: 'Pide Qarışıq', desc: 'Müxtəlif ingredientli pide.', price: 8.99, weight: '', img: MENU_IMG }
+  ],
+  istiYemek: [
+    { id: 'iy1', name: 'Tuşonka', desc: 'Ənənəvi tuşonka yemeği.', price: 11.99, weight: '', img: MENU_IMG },
+    { id: 'iy2', name: 'Tabaka', desc: 'Xüsusi tabaka toyuq.', price: 14.99, weight: '', img: MENU_IMG, badge: 'Populyar' },
+    { id: 'iy3', name: 'Küküi', desc: 'Ləziz küküi.', price: 5.99, weight: '', img: MENU_IMG },
+    { id: 'iy4', name: 'Toyuq Langeti (Qarnirli)', desc: 'Qarnir ilə toyuq langeti.', price: 11.99, weight: '', img: MENU_IMG },
+    { id: 'iy5', name: 'Toyuq Langeti', desc: 'Klassik toyuq langeti.', price: 9.99, weight: '', img: MENU_IMG },
+    { id: 'iy6', name: 'Nar Qovurma', desc: 'Nar ilə qovurma.', price: 13.99, weight: '', img: MENU_IMG },
+    { id: 'iy7', name: 'Quzu Qovurma', desc: 'Quzu əti ilə qovurma.', price: 16.99, weight: '', img: MENU_IMG },
+    { id: 'iy8', name: 'Stroqanoff (Ət)', desc: 'Ət ilə Stroqanoff.', price: 11.99, weight: '', img: MENU_IMG },
+    { id: 'iy9', name: 'Stroqanoff (Toyuq)', desc: 'Toyuq ilə Stroqanoff.', price: 10.99, weight: '', img: MENU_IMG },
+    { id: 'iy10', name: 'Qaymaqlı Dana', desc: 'Qaymaq sousu ilə dana əti.', price: 11.99, weight: '', img: MENU_IMG },
+    { id: 'iy11', name: 'Çoban Qovurma', desc: 'Ənənəvi çoban qovurma.', price: 14.99, weight: '', img: MENU_IMG }
+  ],
+  elaveler: [
+    { id: 'el1', name: 'Qutab (Ət)', desc: 'Ət ilə qutab.', price: 3.00, weight: '', img: MENU_IMG },
+    { id: 'el2', name: 'Qutab (Göy)', desc: 'Göyərti ilə qutab.', price: 1.50, weight: '', img: MENU_IMG },
+    { id: 'el3', name: 'Qutab (Pendirli)', desc: 'Pendir ilə qutab.', price: 1.50, weight: '', img: MENU_IMG },
+    { id: 'el4', name: 'Piroqki (Ət)', desc: 'Ət ilə piroqki.', price: 2.00, weight: '', img: MENU_IMG },
+    { id: 'el5', name: 'Piroqki (Kartof)', desc: 'Kartof ilə piroqki.', price: 1.50, weight: '', img: MENU_IMG },
+    { id: 'el6', name: 'Piroqki (Kiyərə)', desc: 'Kiyərə ilə piroqki.', price: 1.50, weight: '', img: MENU_IMG }
   ]
 };
 
 const faqData = [
   {
-    q: 'Çatdırılma müddəti nə qədərdir?',
-    a: 'Bakı daxilindəki sifarişlər üçün ortalama çatdırılma müddəti 30-60 dəqiqədir. Sifariş verildikdən sonra kuryerimiz sizinlə əlaqə saxlayır.'
-  },
-  {
-    q: 'Minimum sifariş məbləği nədir?',
-    a: 'Minimum sifariş məbləği 10 AZN-dir. Çatdırılma xidmətimiz pulsuzdur (müəyyən rayonlar üçün şərtlər tətbiq oluna bilər).'
-  },
-  {
     q: 'Rezervasiya üçün depozit tələb olunurmu?',
     a: 'Xeyr, rezervasiya tamamilə pulsuzdur. Masa saxlamaq üçün heç bir ödəniş tələb edilmir. Sadəcə gəlmədiyiniz halda xəbər verməyinizi rica edirik.'
+  },
+  {
+    q: 'Nə vaxt açığıq?',
+    a: 'Bazar ertəsi – Cümə: 10:00–23:00 | Şənbə: 10:00–24:00 | Bazar: 11:00–23:00.'
   },
   {
     q: 'Allergenləri nəzərə alırsınızmı?',
@@ -240,37 +109,41 @@ const faqData = [
     a: 'Bəli! Şirkətlər, tədbirlər və böyük qruplar üçün xüsusi korporativ menyu və endirim proqramlarımız mövcuddur. WhatsApp vasitəsilə bizimlə əlaqə saxlayın.'
   },
   {
-    q: 'Qablaşdırma necədir? Eco-friendlydir?',
-    a: 'Biz ekoloji cəhətdən təmiz, geri dönüşümlü qablaşdırma materiallarından istifadə edirik. Soyuducu paketlər suşini çatdırılma zamanı ən təzə vəziyyətdə saxlayır.'
+    q: 'Instagram hesabınız varmı?',
+    a: 'Bəli! Bizi Instagram-da @demliklounge kimi tapın. Yeni məhsullar, xüsusi təkliflər və məkan haqqında məlumat üçün bizi izləyin.'
   },
   {
     q: 'Restoranın iş saatları necədir?',
-    a: 'B.E – Cümə: 10:00–23:00 | Şənbə: 10:00–24:00 | Bazar: 11:00–23:00. Çatdırılma xidməti restoran iş saatları daxilindədir.'
+    a: 'B.E – Cümə: 10:00–23:00 | Şənbə: 10:00–24:00 | Bazar: 11:00–23:00.'
+  },
+  {
+    q: 'Qruplar üçün masa rezervasiyası mümkündürmü?',
+    a: 'Bəli, böyük qruplar üçün xüsusi masalar ayıra bilərik. WhatsApp vasitəsilə bizimlə əvvəlcədən əlaqə saxlayın.'
   }
 ];
 
 const vacanciesData = [
   {
     id: 'v1',
-    icon: '🍱',
-    title: 'Suşi Ustad (Itamae)',
+    icon: '🍵',
+    title: 'Ofisiant',
     type: 'Tam Ştat',
-    salary: '800 – 1200 AZN',
+    salary: '500 – 800 AZN + bonus',
     schedule: 'Dəyişən növbə (2/2)',
-    requirements: 'Ən az 1 il suşi hazırlama təcrübəsi, gigiyena sertifikatı',
-    desc: 'Katana mütbəxinə peşəkar suşi ustad axtarırıq. Kreativlik, dəqiqlik və komanda ruhu vacibdir.',
-    duties: 'Menyu maddələrinin hazırlanması, freshness nəzarəti, müştəri sifarişlərinin icrasını'
+    requirements: 'Ünsiyyət bacarığı, gülərüz xarakter, 18+ yaş',
+    desc: 'Demlik Lounge ailəsinə mehriban ofisiant axtarırıq. Müştərilərimizə ən yaxşı xidməti göstərə biləcək şəxs.',
+    duties: 'Menyu təqdimi, sifariş qəbulu, müştəri məmnuniyyəti'
   },
   {
     id: 'v2',
-    icon: '🛵',
-    title: 'Kuryer',
-    type: 'Yarım / Tam Ştat',
-    salary: '500 – 800 AZN + bonus',
-    schedule: 'Çevik qrafik',
-    requirements: 'Sürücülük vəsiqəsi (B kateqoriyası), Bakı ərazisinə bələdlik',
-    desc: 'Sürətli, etibarlı kuryer işə qəbul edirik. Öz nəqliyyatı olan üçün əlavə bonus nəzərdə tutulur.',
-    duties: 'Sifarişlərin vaxtında çatdırılması, müştəri ilə ünsiyyət'
+    icon: '👨‍🍳',
+    title: 'Aşpaz',
+    type: 'Tam Ştat',
+    salary: '700 – 1100 AZN',
+    schedule: 'Dəyişən növbə',
+    requirements: 'Aşpazlıq sahəsində ən az 1 il təcrübə, gigiyena sertifikatı',
+    desc: 'Menyumuzu zənginləşdirmək üçün peşəkar aşpaz axtarırıq. Kreativlik və keyfiyyətə diqqət vacibdir.',
+    duties: 'Menyu maddələrinin hazırlanması, keyfiyyət nəzarəti, mətbəxin idarəsi'
   },
   {
     id: 'v3',
@@ -301,7 +174,6 @@ const vacanciesData = [
 function showPage(pageId) {
   const oldPage = document.getElementById('page-' + currentPage);
   if (oldPage) {
-    // Save scroll position of current page
     PAGE_SCROLL_MAP[currentPage] = window.scrollY;
     oldPage.classList.remove('active');
   }
@@ -312,18 +184,15 @@ function showPage(pageId) {
   if (!newPage) return;
   newPage.classList.add('active');
 
-  // Update nav active state
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.toggle('active', link.dataset.page === pageId);
   });
 
-  // Restore scroll position for the new page
   const savedScroll = PAGE_SCROLL_MAP[pageId] || 0;
   window.scrollTo({ top: savedScroll, behavior: 'instant' });
 }
 
 function goBack() {
-  // Save current scroll
   PAGE_SCROLL_MAP[currentPage] = window.scrollY;
   showPage('home');
 }
@@ -402,13 +271,12 @@ function renderCart() {
   const totalPrice = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   countEl.textContent = totalItems;
-  totalEl.textContent = totalPrice + ' AZN';
+  totalEl.textContent = totalPrice.toFixed(2) + ' AZN';
 
   const isEmpty = cart.length === 0;
   emptyEl.style.display = isEmpty ? 'flex' : 'none';
   footerEl.style.display = isEmpty ? 'none' : 'block';
 
-  // Remove old items (not the empty notice)
   const existingItems = itemsEl.querySelectorAll('.cart-item');
   existingItems.forEach(el => el.remove());
 
@@ -419,7 +287,7 @@ function renderCart() {
       <img class="cart-item-img" src="${item.img}" alt="${escHtml(item.name)}" loading="lazy" onerror="this.src='images/menu-hero.jpg'" />
       <div class="cart-item-info">
         <div class="cart-item-name">${escHtml(item.name)}</div>
-        <div class="cart-item-price">${item.price * item.qty} AZN</div>
+        <div class="cart-item-price">${(item.price * item.qty).toFixed(2)} AZN</div>
       </div>
       <div class="cart-item-controls">
         <button class="qty-btn" onclick="changeQty('${item.id}',-1)" aria-label="Azalt">−</button>
@@ -434,7 +302,7 @@ function renderCart() {
 function bumpCartCount() {
   const el = document.getElementById('cartCount');
   el.classList.remove('bump');
-  void el.offsetWidth; // reflow
+  void el.offsetWidth;
   el.classList.add('bump');
   setTimeout(() => el.classList.remove('bump'), 300);
 }
@@ -442,15 +310,15 @@ function bumpCartCount() {
 function sendOrder() {
   if (cart.length === 0) return;
 
-  let msg = '🍱 *YENİ SİFARİŞ — Sushi Katana*\n\n';
+  let msg = '🍵 *YENİ SİFARİŞ — Demlik Lounge*\n\n';
   msg += '━━━━━━━━━━━━━━━━━━━━\n';
   cart.forEach((item, idx) => {
-    msg += `${idx + 1}. ${item.name}\n   ${item.qty} × ${item.price} AZN = ${item.qty * item.price} AZN\n`;
+    msg += `${idx + 1}. ${item.name}\n   ${item.qty} × ${item.price.toFixed(2)} AZN = ${(item.qty * item.price).toFixed(2)} AZN\n`;
   });
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
   msg += '━━━━━━━━━━━━━━━━━━━━\n';
-  msg += `💰 *CƏMİ: ${total} AZN*\n\n`;
-  msg += '📍 Çatdırılma ünvanınızı yazın.';
+  msg += `💰 *CƏMİ: ${total.toFixed(2)} AZN*\n\n`;
+  msg += '📍 Ünvanınızı və ya əlavə istəklərinizi yazın.';
 
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank', 'noopener,noreferrer');
@@ -483,7 +351,7 @@ function renderMenuGrids() {
           <div class="menu-card-name">${escHtml(item.name)}</div>
           <div class="menu-card-desc">${escHtml(item.desc)}</div>
           <div class="menu-card-footer">
-            <span class="menu-card-price">${item.price} AZN</span>
+            <span class="menu-card-price">${item.price.toFixed(2)} AZN</span>
             <button class="add-btn" onclick="event.stopPropagation();addToCart('${item.id}')" aria-label="Səbətə əlavə et">+</button>
           </div>
         </div>
@@ -513,8 +381,8 @@ function openProductModal(product) {
   document.getElementById('modalImg').alt = product.name;
   document.getElementById('modalName').textContent = product.name;
   document.getElementById('modalDesc').textContent = product.desc;
-  document.getElementById('modalPrice').textContent = product.price + ' AZN';
-  document.getElementById('modalWeight').textContent = product.weight;
+  document.getElementById('modalPrice').textContent = product.price.toFixed(2) + ' AZN';
+  document.getElementById('modalWeight').textContent = product.weight || '';
   document.getElementById('productModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -532,7 +400,7 @@ function closeProductModalBtn() {
 
 function renderFaq() {
   const list = document.getElementById('faqList');
-  faqData.forEach((item, i) => {
+  faqData.forEach((item) => {
     const el = document.createElement('div');
     el.className = 'faq-item';
     el.innerHTML = `
@@ -551,7 +419,6 @@ function renderFaq() {
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
   const isOpen = item.classList.contains('open');
-  // Close all
   document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
 }
@@ -611,7 +478,7 @@ function closeVacancyModalBtn() {
 
 function applyVacancy() {
   if (!currentVacancy) return;
-  const msg = `👋 *Vakansiyaya Müraciət — Sushi Katana*\n\n🔹 *Vəzifə:* ${currentVacancy.title}\n🔹 *İş rejimi:* ${currentVacancy.type}\n\nSalam! Bu vakansiya ilə maraqlanıram. Əlaqə saxlamaq istəyirəm.`;
+  const msg = `👋 *Vakansiyaya Müraciət — Demlik Lounge*\n\n🔹 *Vəzifə:* ${currentVacancy.title}\n🔹 *İş rejimi:* ${currentVacancy.type}\n\nSalam! Bu vakansiya ilə maraqlanıram. Əlaqə saxlamaq istəyirəm.`;
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
 }
 
@@ -619,12 +486,12 @@ function applyVacancy() {
 
 function submitReservation(e) {
   e.preventDefault();
-  const name    = document.getElementById('resName').value.trim();
-  const phone   = document.getElementById('resPhone').value.trim();
-  const date    = document.getElementById('resDate').value;
-  const time    = document.getElementById('resTime').value;
-  const guests  = document.getElementById('resGuests').value;
-  const note    = document.getElementById('resNote').value.trim();
+  const name   = document.getElementById('resName').value.trim();
+  const phone  = document.getElementById('resPhone').value.trim();
+  const date   = document.getElementById('resDate').value;
+  const time   = document.getElementById('resTime').value;
+  const guests = document.getElementById('resGuests').value;
+  const note   = document.getElementById('resNote').value.trim();
 
   if (!name || !phone || !date || !time || !guests) {
     showToast('Zəhmət olmasa bütün məcburi xanaları doldurun!');
@@ -632,7 +499,7 @@ function submitReservation(e) {
   }
 
   const formattedDate = formatDate(date);
-  let msg = `📅 *REZERVASIYA — Sushi Katana*\n\n`;
+  let msg = `📅 *REZERVASIYA — Demlik Lounge*\n\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━\n`;
   msg += `👤 *Ad, Soyad:* ${name}\n`;
   msg += `📞 *Telefon:* ${phone}\n`;
@@ -719,7 +586,6 @@ document.addEventListener('DOMContentLoaded', function() {
   renderVacancies();
   renderCart();
 
-  // Set min date for reservation to today
   const today = new Date().toISOString().split('T')[0];
   const resDate = document.getElementById('resDate');
   if (resDate) resDate.min = today;
